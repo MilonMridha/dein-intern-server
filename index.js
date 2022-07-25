@@ -73,6 +73,21 @@ async function run() {
                 }
                 res.send({message: "User & password does not exist"})
             });
+
+                // Reset Password---------->
+            app.put('/user/:email', async (req, res) => {
+                const email = req.params.email
+                console.log(email)
+                const Password = req.body;
+                const filter = { email: email };
+                const options = { upsert: true };
+                const updateDoc = {
+                    $set: Password,
+                };
+                const result = await userCollection.updateOne(filter, updateDoc, options);
+                
+                res.send({ result});
+            });
         });
     }
     finally{
